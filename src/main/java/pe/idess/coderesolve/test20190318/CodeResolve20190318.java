@@ -1,20 +1,37 @@
 package pe.idess.coderesolve.test20190318;
 
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.ArrayList;
+
 /**
- * 정수 배열(int array)가 주어지면 가장 큰 이어지는 원소들의 합을 구하시오. 단, 시간복잡도는 O(n).
- * Given an integer array, find the largest consecutive sum of elements.
+ * 피보나치 배열은 0과 1로 시작하며, 다음 피보나치 수는 바로 앞의 두 피보나치 수의 합이 된다. 정수 N이 주어지면, N보다 작은 모든 짝수 피보나치 수의 합을 구하여라.
+ * Fibonacci sequence starts with 0 and 1 where each fibonacci number is a sum of two previous fibonacci numbers. Given an integer N, find the sum of all even fibonacci numbers.
+ * 예제)
+ * Input: N = 12
+ * Output: 10 // 0, 1, 2, 3, 5, 8 중 짝수인 2 + 8 = 10.
  */
+@Slf4j
 public class CodeResolve20190318 {
+    public int resolve(int input) {
+        int sum = 0;
 
-    public int resolve(int[] inputs) {
-        int maxSum = inputs[0];
-        int currentSum = inputs[0]; // 처음부터 이어지는 합계 혹은 최근에 가져온 값중 큰 값
+        ArrayList<Integer> fibonacci = new ArrayList<>();
+        fibonacci.add(0);
+        fibonacci.add(1);
 
-        for (int i = 1; i < inputs.length; i++) {
-            currentSum = Math.max(currentSum + inputs[i], inputs[i]);
-            maxSum = Math.max(currentSum, maxSum);
+        int currIdx = 2;
+
+        while (true) {
+            int currSum = fibonacci.get(currIdx - 1) + fibonacci.get(currIdx - 2);
+            if (currSum > input) break;
+            if (currSum % 2 == 0) sum += currSum;
+            fibonacci.add(currSum);
+            currIdx++;
         }
 
-        return maxSum;
+        log.info("CodeResolve20190318 Input : {}, fibonacci: {}, sum: {}", input, fibonacci, sum);
+
+        return sum;
     }
 }
